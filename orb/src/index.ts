@@ -94,39 +94,53 @@ Disallow: *
             },
         ];
 
-        let html = 
-        `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${decodeURIComponent(path.split("/").pop()!)} - Orb</title>
-            <style>
-    html {
-        margin: 0;
-    }
-    body {
-        width: 500px;
-        margin: 0 auto;
-        background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/background.png');
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-        min-height: 100vh;
-    }
-            </style>
-        </head>
-        <body>
-        ${renderHeader()}
-        <h1>${decodeURIComponent(path.split("/").pop()!)}</h1>
-        `
+        let html =
+`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${decodeURIComponent(path.split("/").pop()!)} - Orb</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #background {
+            width: 500px;
+            margin: 0 auto;
+            background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/background.png');
+            background-repeat: no-repeat;
+            background-size: cover; /* Ensures the background stretches to cover the div */
+            background-position: center;
+            min-height: 100vh; /* Ensures the div covers the full viewport height */
+            padding: 20px; /* Adds some padding around the content */
+        }
+        #content {
+            width: 500px;
+            margin: 0 auto;
+            position: relative; /* Ensures content is positioned on top of the background */
+        }
+    </style>
+</head>
+<body>
+    <div id="background">
+        <div id="content">
+            ${renderHeader()}
+            <h1>${decodeURIComponent(path.split("/").pop()!)}</h1>
+`;
 
         // Fetch the AI response asynchronously
         const response: any = await env.AI.run("@cf/meta/llama-3.2-3b-instruct", { messages });
         html += `${response["response"]}`;
         html += `<endpoint>`;
-        html += `</body></html>`;
+        html +=`        </div>
+    </div>
+</body>
+</html>`
+
 
         // Create a ReadableStream from the HTML string
         const stream = new ReadableStream({
