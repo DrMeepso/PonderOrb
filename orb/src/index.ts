@@ -100,7 +100,7 @@ Disallow: *
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=500, initial-scale=0.5, maximum-scale=1.0, user-scalable=yes">
     <title>${decodeURIComponent(path.split("/").pop()!)} - Orb</title>
     <style>
         html, body {
