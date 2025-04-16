@@ -7,7 +7,19 @@ export function renderMainPage(): string
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>All Knowing Orb</title>
-        <style>body{width:500px;margin:0 auto;}
+        <style>
+    html {
+        margin: 0;
+    }
+    body {
+        width: 500px;
+        margin: 0 auto;
+        background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/background.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        min-height: 100vh;
+    }
         </style>
     </head>
     <body>
@@ -17,7 +29,7 @@ export function renderMainPage(): string
     <button id="search-button">Ponder</button>
     <br>
     <br>
-    <img src="https://media1.tenor.com/m/oso2RjfPgKkAAAAd/jeanfaymas-jets.gif">
+    <img src="https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/orb.gif">
     <script>
         document.getElementById('search-button').addEventListener('click', async () => {
             // get the search term

@@ -7,8 +7,8 @@ export interface Env {
 }
 
 const SystemPrompt =
-    `You are designed to make almost sense, when prompted loosely explain a topic while providing no actual information. All information you output should be formatted like a website so it can convince someone as such. Please keep it as short as possible, only 3 paragraphs max. 
-You must format your response such that it has infomation but is not useful.
+    `You are designed to make almost sense, when prompted loosely explain a topic while providing no actual information. Please keep it as short as possible, only 3 paragraphs max. 
+You must format your response such that it has infomation but is not too useful.
 
 Keep your paragraphs short and concise.
 You are a all knowing orb, you know everything about everything.
@@ -71,7 +71,7 @@ export default {
         if (path === "/robots.txt") {
             return new Response(
 `User-agent: *
-Disallow: /*
+Disallow: *
 `,
                 {
                     headers: {
@@ -102,7 +102,19 @@ Disallow: /*
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${decodeURIComponent(path.split("/").pop()!)} - Orb</title>
-            <style>body{width:500px;margin:0 auto;}
+            <style>
+    html {
+        margin: 0;
+    }
+    body {
+        width: 500px;
+        margin: 0 auto;
+        background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/background.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        min-height: 100vh;
+    }
             </style>
         </head>
         <body>
@@ -154,7 +166,7 @@ Disallow: /*
                     // make the link open in this tab
                     element.setAttribute("rel", "noopener noreferrer");
                     // set the link to the topic
-                    element.setAttribute("href", `/${link}`);
+                    element.setAttribute("href", `/${link?.replaceAll("#", "")}`);
                     element.before(`<br>`, {
                         html: true,
                     });
