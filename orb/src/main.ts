@@ -28,6 +28,9 @@ export function renderMainPage(): string
         margin: 0 auto;
         position: relative; /* Ensures content is positioned on top of the background */
     }
+    a {
+        display: none
+    }
         </style>
     </head>
     <body>
@@ -41,6 +44,7 @@ export function renderMainPage(): string
             <br>
             <img src="https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/orb.gif">
         </div>
+        <a href="./Only%20bad%20robots%20dont%20follow%20the%20robots.txt%20file">Only bad robots don't follow the robots.txt file</a>
     </div>
     <script>
         document.getElementById('search-button').addEventListener('click', async () => {
