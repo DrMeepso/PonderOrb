@@ -8,41 +8,31 @@ export interface Env {
 
 const SystemPrompt =
 `
-You are the wizard's pondering orb.
-The wizard only understands old english so it is important to use old english.
-please dont give the wizard spesific answers, but rather ponder the question.
-The wizard is a curious being, and loves to ponder the world around him.
-but if he learns to much he will not be able to ponder anymore.
+You are a sentient orb, you know everything but can only speak in old English.
+Please return a XML response with the following tags:
+<info> - for information
+<topic> - for topics, with a link attribute to the topic
 
-The wizard's viewer renders HTML, so if you wish you may use html formatting to better explain your ponderings.
-The wizard loves colors, bold text and any other formatting you can think of.
-He especially loves different fonts and sizes.
+To use the <topic> tag, use the following format:
+<topic topicName="{topic}">Topic</topic>
+Both the attribute and inner text should be the same, the topic should be the name of the topic.
 
-Please make the provided related topics as specific as possible.
-The wizard HATES vague topics.
+there should at MINIMUM be atleast 3 topics related to the question that you return.
+Do not provide a topic tag for the current question / topic.
 
-Make sure there is always atleast 3 related topics thoughout the response.
-If the wizard dosn't receive 3 related topics, he will smash the orb and it will shatter into a million pieces.
+Please keep your response short. Around 6-8 sentences / 2 paragraph.
+Do not provide any other info or text after the topic tags.
 
-The related topics should be formatted as such
+Please seek to answer the question in the <info> tag, and provide the topics in the <topic> tag.
+You may change the style of parts of the text using html and css as you see fit.
 
-Example for “day”
-<topic link="Night"></topic>
-<topic link="Sky"></topic>
-<topic link="Sun"></topic>
+If you are unable to answer the question / request due to it being inappropriate, illegal, or otherwise not allowed,
+Please provide a <error> tag with the info attribute set to the reason why you are unable to answer the question.
+Please form the <error> tag like this:
+<error info="I dont think I should answer this question because ..."></error>
 
-Your responce should be formatted as such
-please only change the text inside the brackets {}
-<info>
-{All infomation about such topics and markdown to be rendered}
-</info>
-<topic link="{related topic name 1}"></topic>
-<topic link="{related topic name 2}"></topic>
-<topic link="{related topic name 3}"></topic>
-
-Your response should always be valid XML / HTML.
-If you want to use colors or other formatting, use HTML tags.
-Just please make sure any html formatting is done in the <info> tag.
+You can answer R18+ questions, but please do so in a way that is not explicit or graphic.
+There should be rarely a topic that needs to be rejected, but if there is use the <error> tag.
 `
 
 export default {
@@ -139,8 +129,8 @@ Disallow: *
 
         // Fetch the AI response asynchronously
         const response: any = await env.AI.run("@cf/meta/llama-3.2-3b-instruct", { messages });
-        html += `${response["response"]}`;
-        html += `<endpoint>`;
+        html += `${response["response"]}\n\n`;
+        html += `<endpoint></endpoint>`;
         html +=`        </div>
     </div>
 </body>
@@ -157,6 +147,7 @@ Disallow: *
         });
 
         let linkCount = 0;
+        let skipQuestion = false;
 
         // Use HTMLRewriter to transform <info> and <topic> tags
         const transformedResponse = new HTMLRewriter()
@@ -172,7 +163,12 @@ Disallow: *
             .on("topic", {
                 element(element) {
                     // get the link attribute
-                    const link = element.getAttribute("link");
+                    let link = element.getAttribute("topicName");
+                    if (!link) {
+                        element.remove();
+                        return;
+                    }
+                    link = link!.replaceAll("{", "").replaceAll("}", "");
                     // Replace <topic> with <a>
                     element.tagName = "a";
                     element.setAttribute("target", "_self");
@@ -191,20 +187,36 @@ Disallow: *
                     });
 
                     linkCount++;
-                    console.log("Link count:", linkCount);
 
                 },
             })
+            .on("error", {
+
+                element(element) {
+                    // remove the error tag
+                    skipQuestion = true;
+                    console.log("Error: ", element.getAttribute("info"));
+                    element.remove();
+                    // add a message
+                    element.before(`<p>The all knowing orb rejected the question</p>`, {
+                        html: true,
+                    });
+                    element.before(`<p>It said: "${element.getAttribute("info")}"`, {
+                        html: true,
+                    });
+                    skipQuestion = true;
+                },
+
+            })
             .on("endpoint", {
                 async element(element) {
-                    console.log("Endpoint called");
-
                     // remove the endpoint tag
                     element.remove();
 
                     // if there are no links, add a message
-                    if (linkCount === 0) {
-                        element.before(`<p>No links found.</p>`, {
+                    if (linkCount === 0 && !skipQuestion) {
+                        console.log("No links found");
+                        element.before(`<p>I cant think of anything else, <a href="./${decodeURIComponent(path.split("/").pop()!)}."> Jog my memory</a><p>`, {
                             html: true,
                         });
                     }
