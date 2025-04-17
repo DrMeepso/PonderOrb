@@ -86,7 +86,7 @@ Disallow: *
             },
             {
                 role: "user",
-                content: `I ponder ${decodeURIComponent(path.split("/").pop()!)}`,
+                content: `${decodeURIComponent(path.split("/").pop()!)}`,
             },
         ];
 
