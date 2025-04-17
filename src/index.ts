@@ -64,6 +64,7 @@ export default {
             });
         }
 
+        /*
         if (path === "/robots.txt") {
             return new Response(
 `User-agent: *
@@ -77,6 +78,7 @@ Disallow: /c/`,
                 }
             );
         }
+            */
 
         console.log(path.split("/"))
         if (path.split("/")[1] !== "c") {
@@ -111,6 +113,11 @@ Disallow: /c/`,
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=500, initial-scale=0.5, maximum-scale=1.0, user-scalable=yes">
+    <meta name="robots" content="noindex">
+    <meta name="description" content="Ponder Orb - A sentient orb that knows everything">
+    <meta name="keywords" content="Ponder Orb, AI, Chatbot, Knowledge, Information">
+    <meta name="author" content="DrMeepso">
+    <meta name="theme-color" content="#000000">
     <title>${decodeURIComponent(path.split("/").pop()!)} - Orb</title>
     <style>
         html, body {
