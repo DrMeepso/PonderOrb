@@ -67,7 +67,8 @@ export default {
         if (path === "/robots.txt") {
             return new Response(
 `User-agent: *
-Disallow: *
+Disallow: /*
+Allow: /
 `,
                 {
                     headers: {
