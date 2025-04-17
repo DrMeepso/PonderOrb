@@ -107,7 +107,7 @@ Disallow: *
         #background {
             width: 500px;
             margin: 0 auto;
-            background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/background.png');
+            background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/src/background.png');
             background-repeat: no-repeat;
             background-size: cover; /* Ensures the background stretches to cover the div */
             background-position: center;

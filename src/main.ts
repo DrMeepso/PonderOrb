@@ -16,7 +16,7 @@ export function renderMainPage(): string
     #background {
         width: 500px;
         margin: 0 auto;
-        background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/background.png');
+        background-image: url('https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/src/background.png');
         background-repeat: no-repeat;
         background-size: cover; /* Ensures the background stretches to cover the div */
         background-position: center;
@@ -42,7 +42,7 @@ export function renderMainPage(): string
             <button id="search-button">Ponder</button>
             <br>
             <br>
-            <img src="https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/orb/src/orb.gif">
+            <img src="https://raw.githubusercontent.com/DrMeepso/PonderOrb/refs/heads/main/src/orb.gif">
         </div>
         <a href="./Only%20bad%20robots%20dont%20follow%20the%20robots.txt%20file">Only bad robots don't follow the robots.txt file</a>
     </div>
