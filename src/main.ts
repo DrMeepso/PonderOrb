@@ -51,7 +51,7 @@ export function renderMainPage(): string
             // get the search term
             const searchTerm = document.getElementById('search').value;
             // go to ./searchTerm
-            window.location.href = \`/\${searchTerm}\`;
+            window.location.href = \`/c/\${searchTerm}\`;
         });
     </script>
     </body>

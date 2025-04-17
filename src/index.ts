@@ -67,10 +67,25 @@ export default {
         if (path === "/robots.txt") {
             return new Response(
 `User-agent: *
-Disallow: /*
+Disallow: /c/*
 Allow: /
 `,
                 {
+                    headers: {
+                        "Content-Type": "text/plain",
+                        "Cache-Control": "no-store",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                }
+            );
+        }
+
+        console.log(path.split("/"))
+        if (path.split("/")[1] !== "c") {
+            return new Response(
+                `Not Found`,
+                {
+                    status: 404,
                     headers: {
                         "Content-Type": "text/plain",
                         "Cache-Control": "no-store",
@@ -183,7 +198,7 @@ Allow: /
                     // make the link open in this tab
                     element.setAttribute("rel", "noopener noreferrer");
                     // set the link to the topic
-                    element.setAttribute("href", `/${link?.replaceAll("#", "")}`);
+                    element.setAttribute("href", `/c/${link?.replaceAll("#", "")}`);
                     element.before(`<br>`, {
                         html: true,
                     });
