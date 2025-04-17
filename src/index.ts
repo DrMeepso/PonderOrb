@@ -67,9 +67,7 @@ export default {
         if (path === "/robots.txt") {
             return new Response(
 `User-agent: *
-Disallow: /c/*
-Allow: /
-`,
+Disallow: /c/`,
                 {
                     headers: {
                         "Content-Type": "text/plain",
